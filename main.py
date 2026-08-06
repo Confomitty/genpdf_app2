@@ -2,27 +2,22 @@ from fpdf import FPDF
 import pandas as pd
 
 pdf = FPDF(orientation = "P",unit = "mm",format = "A4")
-total_pages = 0
+
 df = pd.read_csv("topics.csv")
 for index , row in df.iterrows():
-    if row["Pages"] > 1:
-        count = 0
-        while count != row["Pages"]:
-            pdf.add_page()
-            pdf.set_font(family="Times", style="B", size=24)
-            pdf.cell(w=0,h=24,txt=row["Topic"])
-            pdf.line(10,28,200,28)
-            count+=1
-            total_pages+=1
-    else :
+    pdf.add_page()
+    pdf.set_font(family="Times", style="B", size=24)
+    pdf.cell(w=0,h=24,txt=row["Topic"])
+    pdf.line(10,28,200,28)
+
+    for i in range(row["Pages"]-1):
         pdf.add_page()
         pdf.set_font(family="Times", style="B", size=24)
-        pdf.cell(w=0, h=24, txt=row["Topic"])
-        pdf.line(10, 28, 200, 28)
-        total_pages+=1
 
-print(total_pages)
 pdf.output("output.pdf")
+
+
+
 
 
 """
